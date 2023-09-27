@@ -1,3 +1,69 @@
+cython (0.29.32-2) unstable; urgency=medium
+
+  * Team upload.
+  * Patch: Avoid triggering an assertion failure on python3.11-dbg when
+    calling cyfuncs.
+
+ -- Stefano Rivera <stefanor@debian.org>  Wed, 23 Nov 2022 19:59:12 +0200
+
+cython (0.29.32-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 0.29.32.
+
+ -- Boyuan Yang <byang@debian.org>  Wed, 14 Sep 2022 14:31:42 -0400
+
+cython (0.29.30-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream version 0.29.30.
+  * debian/control: Bump Standards-Version to 4.6.1.
+  * debian/patches: Refresh patches.
+
+ -- Boyuan Yang <byang@debian.org>  Sun, 12 Jun 2022 10:12:47 -0400
+
+cython (0.29.28-3) unstable; urgency=medium
+
+  * Team upload
+  * Fixed another 2-digit minor version bug.
+  * Skip tests on sparc64, where they frequently fail. (Closes: #1003181)
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 17 Mar 2022 23:20:26 -0400
+
+cython (0.29.28-2) unstable; urgency=medium
+
+  * Team upload
+  * Handle 2-digit Python minor versions.
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 17 Mar 2022 14:29:17 -0400
+
+cython (0.29.28-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Remove constraints unnecessary since buster:
+    + Build-Depends: Drop versioned constraint on dpkg-dev, help2man and
+      python3-numpy.
+
+  [ Graham Inggs ]
+  * New upstream release
+  * Drop 23c3e1e71c42ac4a3d791267a1f8f7ac3df1c3cc.patch included upstream
+  * Mark import3 autopkgtest as superficial (Closes: #971460)
+
+ -- Graham Inggs <ginggs@debian.org>  Wed, 23 Feb 2022 12:31:37 +0000
+
+cython (0.29.24-2) unstable; urgency=medium
+
+  * Team upload.
+  [ Helmut Grohne ]
+  * Non-maintainer upload.
+  * Reduce Build-Depends: (Closes: #981502)
+    + Demote python3-sphinx to Build-Depends-Indep.
+    + Annotate gdb dependency <!nocheck>.
+
+ -- Laurent Bigonville <bigon@debian.org>  Mon, 27 Dec 2021 18:47:04 +0100
+
 cython (0.29.24-1) unstable; urgency=medium
 
   [ Debian Janitor ]

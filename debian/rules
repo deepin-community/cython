@@ -1,6 +1,7 @@
 #!/usr/bin/make -f
 # -*- makefile -*-
 include /usr/share/dpkg/pkg-info.mk
+include /usr/share/dpkg/architecture.mk
 
 #  Apparently WGET agent is not favored by upstream's MoinMoin
 WGET_AGENT_STRING="Lynx/2.8.8dev.4 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/2.8.6"
@@ -68,7 +69,7 @@ override_dh_install-arch:
 	sed -i -e '1 s,#!.*python.*,#!/usr/bin/python3,' debian/cython3/usr/bin/*
 
 	: # remove files installed from cython.install that belong in -dbg
-	find $(CURDIR)/debian/cython3/ -name "*.cpython-3?d*.so" -delete
+	find $(CURDIR)/debian/cython3/ -name "*.cpython-3*d*.so" -delete
 
 	: # share -dbg and normal package doc dirs
 	rm -rf debian/cython3-dbg/usr/share/doc/cython3-dbg
@@ -100,7 +101,7 @@ override_dh_installchangelogs:
 
 
 override_dh_auto_test:
-ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS))$(filter sparc64,$(DEB_HOST_ARCH)))
 	set -e; for P in $(PY3VERS); do \
 	 echo =============== $$P start ===============; \
 	 if PYTHONPATH=`/bin/ls -d $(CURDIR)/build/lib.*-$$P` \
