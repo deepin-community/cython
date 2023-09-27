@@ -2,4 +2,4 @@ deb_disable_googleanalytics
 honour_SOURCE_DATE_EPOCH_for_copyright_year
 debup_workaround_verify_resolution_GH1533
 disable_tests.patch
-23c3e1e71c42ac4a3d791267a1f8f7ac3df1c3cc.patch
+py3.11-dbg-assertion.patch
