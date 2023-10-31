@@ -127,5 +127,5 @@ override_dh_strip:
 override_dh_auto_clean:
 	make clean
 	rm -rf Cython.egg-info docs/build
+	rm -rf .pybuild
 	find -name "*.py[oc]" -type f -delete
-

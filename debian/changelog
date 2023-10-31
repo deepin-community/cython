@@ -1,3 +1,13 @@
+cython (0.29.36-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+    - Includes Python 3.12 support (Closes: #1004725)
+  * Drop patch py3.11-dbg-assertion.patch, supersedde upstream.
+  * Clean pybuild's work directory.
+
+ -- Stefano Rivera <stefanor@debian.org>  Fri, 07 Jul 2023 10:05:47 -0400
+
 cython (0.29.32-2) unstable; urgency=medium
 
   * Team upload.
