@@ -1,0 +1,27 @@
+From: Stefano Rivera <stefano@rivera.za.net>
+Date: Sun, 21 Jan 2024 11:16:39 -0400
+Subject: pyximport: Avoid chdir before build on non-Windows
+
+Using a relative path means we lose path information in the built
+module. This can be useful in packages such as stack_data that look up
+source code.
+
+Bug-Debian: https://bugs.debian.org/1056872
+Forwarded: https://github.com/cython/cython/pull/5957
+---
+ pyximport/_pyximport3.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/pyximport/_pyximport3.py b/pyximport/_pyximport3.py
+index 6293259..7ceb555 100644
+--- a/pyximport/_pyximport3.py
++++ b/pyximport/_pyximport3.py
+@@ -185,7 +185,7 @@ def build_module(name, pyxfilename, pyxbuild_dir=None, inplace=False, language_l
+     from . import pyxbuild
+     olddir = os.getcwd()
+     common = ''
+-    if pyxbuild_dir:
++    if pyxbuild_dir and sys.platform == 'win32':
+         # Windows concatenates the pyxbuild_dir to the pyxfilename when
+         # compiling, and then complains that the filename is too long
+         common = os.path.commonprefix([pyxbuild_dir, pyxfilename])
