@@ -8,10 +8,10 @@ Subject: debup_workaround_verify_resolution_GH1533
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/run/cpdef_enums.pyx b/tests/run/cpdef_enums.pyx
-index 69c90d9..28431b9 100644
+index 83b813e..f450815 100644
 --- a/tests/run/cpdef_enums.pyx
 +++ b/tests/run/cpdef_enums.pyx
-@@ -94,7 +94,7 @@ verify_pure_c()
+@@ -137,7 +137,7 @@ verify_pure_c()
  
  def verify_resolution_GH1533():
      """
