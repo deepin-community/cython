@@ -3,11 +3,6 @@
 include /usr/share/dpkg/pkg-info.mk
 include /usr/share/dpkg/architecture.mk
 
-#  Apparently WGET agent is not favored by upstream's MoinMoin
-WGET_AGENT_STRING="Lynx/2.8.8dev.4 libwww-FM/2.14 SSL-MM/1.4.1 GNUTLS/2.8.6"
-WGET=wget -q --user-agent=$(WGET_AGENT_STRING)
-WIKI_URL=http://wiki.cython.org
-
 # Python versions
 PY3DEF=$(shell py3versions -dv)
 PY3VERS=$(shell py3versions -vr)
@@ -21,37 +16,17 @@ endif
 export HOME=$(CURDIR)/build
 export MPLCONFIGDIR=$(CURDIR)/build
 
+export PYBUILD_DESTDIR=debian/cython3
+
 %:
-	dh $@ --with python3 --buildsystem pybuild
+	dh $@ --buildsystem pybuild
 
-override_dh_auto_build:
-	dh_auto_build
-
-	: # Build for Python 3
-	set -e; for v in $(PY3VERS); do \
-	 python$$v setup.py build; \
-	 python$$v-dbg setup.py build; \
-	done
-
-override_dh_auto_install:
-	dh_auto_install
-
-	: # Install for Python 3
-	set -e; for v in $(PY3VERS); do \
-	 python$$v setup.py install --root=$(CURDIR)/debian/tmp --install-layout=deb; \
-	 python$$v-dbg setup.py install --root=$(CURDIR)/debian/tmp --install-layout=deb; \
-	done
-
-	: # Force the creation of cython3 and cygdb3 executables.
-	: # Shebang lines are fixed in override_dh_install.
-	cp debian/tmp/usr/bin/cython debian/tmp/usr/bin/cython3
-	cp debian/tmp/usr/bin/cygdb debian/tmp/usr/bin/cygdb3
-
-override_dh_installman-arch: build/cython.1
-	dh_installman
+override_dh_installman-arch: build/cython.1 build/cythonize.1 build/cygdb.1
+	dh_installman -a
 
 build/cython.1:
 	: # Generate a manpage using help2man
+	echo ".so cython.1" >> build/cython3.1
 	PYTHONPATH=`/bin/ls -d $(CURDIR)/build/lib.*-$(PY3DEF)` \
 	  help2man --no-info --no-discard-stderr \
 		-n "compile Cython code (.pyx) into C to build a Python extension" \
@@ -59,48 +34,45 @@ build/cython.1:
 	: # Verify that manpage generated nicely -- no Errors reported
 	grep -q 'ImportError:' build/cython.1 && exit 1 || :
 
-override_dh_install-indep:
-	dh_install
+build/cygdb.1:
+	: # Generate a manpage using help2man
+	echo ".so cygdb.1" >> build/cygdb3.1
+	PYTHONPATH=`/bin/ls -d $(CURDIR)/build/lib.*-$(PY3DEF)` \
+	  help2man --no-info --no-discard-stderr \
+		-n "Run compiled Cython code under the GNU debugger" \
+		bin/cygdb >| build/cygdb.1
+	: # Verify that manpage generated nicely -- no Errors reported
+	grep -q 'ImportError:' build/cygdb.1 && exit 1 || :
 
-override_dh_install-arch:
-	dh_install
+build/cythonize.1:
+	: # Generate a manpage using help2man
+	echo ".so cythonize.1" >> build/cythonize3.1
+	PYTHONPATH=`/bin/ls -d $(CURDIR)/build/lib.*-$(PY3DEF)` \
+	  help2man --no-info --no-discard-stderr \
+		-n "Compile Cython code (.pyx) into C to build a Python extension" \
+		bin/cythonize >| build/cythonize.1
+	: # Verify that manpage generated nicely -- no Errors reported
+	grep -q 'ImportError:' build/cythonize.1 && exit 1 || :
 
-	: # fix shebang
-	sed -i -e '1 s,#!.*python.*,#!/usr/bin/python3,' debian/cython3/usr/bin/*
-
-	: # remove files installed from cython.install that belong in -dbg
-	find $(CURDIR)/debian/cython3/ -name "*.cpython-3*d*.so" -delete
-
-	: # share -dbg and normal package doc dirs
-	rm -rf debian/cython3-dbg/usr/share/doc/cython3-dbg
-	dh_link -pcython3-dbg usr/share/doc/cython3 usr/share/doc/cython3-dbg
+execute_after_dh_install-arch:
 	# add debian version to watermark of generated files
 	sed -i -e "s/ on / (Debian $(DEB_VERSION)) on /" \
-	  debian/cython3/usr/lib/python3/dist-packages/Cython/Compiler/Version.py
+	  debian/cython3/usr/lib/python3*/dist-packages/Cython/Compiler/Version.py
 
-
-override_dh_installdocs:
+execute_after_dh_auto_build-indep:
 	: # Build Documentation
 ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
-ifneq (,$(findstring -a,$(DH_INTERNAL_OPTIONS)))
-	: # not building documentation in -a
-	: # just faking having documentation so that dh-installdocs doesn't fail
-	mkdir -p docs/build/html
-else
-	make -C docs html
-	: # Use jquery/underscore from Debian package, so prune shipped one
-	-rm docs/build/html/_static/jquery.js docs/build/html/_static/underscore.js
+	$(MAKE) -C docs html
 endif
-endif
-	dh_installdocs --package=cython3 --package=cython3-dbg --link-doc=cython3 debian/upstream
-	dh_installdocs --package=cython-doc debian/upstream
 
+override_dh_installdocs:
+	dh_installdocs -pcython-doc --doc-main-package=cython3
+	dh_installdocs --remaining-packages
 
 override_dh_installchangelogs:
 	dh_installchangelogs --all CHANGES.rst
 
-
-override_dh_auto_test:
+override_dh_auto_test-arch:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS))$(filter sparc64,$(DEB_HOST_ARCH)))
 	set -e; for P in $(PY3VERS); do \
 	 echo =============== $$P start ===============; \
@@ -117,15 +89,15 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS))$(filter sparc64,$(DEB_HOST_ARCH)))
 	done
 endif
 
-override_dh_python3:
-	dh_python3 -pcython3
-
+override_dh_auto_test-indep:
+	# no tests
 
 override_dh_strip:
-	dh_strip -pcython3 --dbg-package=cython3-dbg
+	dh_strip --dbgsym-migration='cython3-dbg (<< 0.29.36-1~)'
 
-override_dh_auto_clean:
-	make clean
-	rm -rf Cython.egg-info docs/build
-	rm -rf .pybuild
-	find -name "*.py[oc]" -type f -delete
+execute_after_dh_python3:
+	# fix shebang lines
+	sed -i -e '1 s,#!.*python.*,#!/usr/bin/python3,' debian/cython3/usr/bin/*
+
+execute_after_dh_auto_clean:
+	rm -rf docs/build

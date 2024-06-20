@@ -1,1 +1,3 @@
 build/cython.1
+# Created by tests/run/cpp_class_attrib.srctree
+docs/examples/userguide/wrapping_CPlusPlus/rect_with_attributes.cpp

@@ -1,3 +1,133 @@
+cython (3.0.10+dfsg-5) unstable; urgency=medium
+
+  * Team upload
+  * When there is more than one supported Python version, i386 and arm64
+    are too slow for autopkgtest to run the entire testsuite on each
+    Python version without timing out.  So we restrict to only the default
+    version on those archs.
+
+ -- Julian Gilbey <jdg@debian.org>  Sun, 21 Apr 2024 19:39:36 +0100
+
+cython (3.0.10+dfsg-4) unstable; urgency=medium
+
+  * Team upload
+  * debian/:
+    - Build with --with=sphinxdoc only on -indep builds
+    - Stop building debug extensions to finish move to -dbgsym
+      packages (Closes: 1069305)
+  * debian/rules:
+    - Use $(MAKE) instead of make
+    - Run tests only for -arch builds.
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Sun, 21 Apr 2024 18:15:24 +0200
+
+cython (3.0.10+dfsg-3) unstable; urgency=medium
+
+  * Team upload
+  * Only build documentation when building arch-independent package
+
+ -- Julian Gilbey <jdg@debian.org>  Thu, 18 Apr 2024 23:06:08 +0100
+
+cython (3.0.10+dfsg-2) unstable; urgency=medium
+
+  * Team upload
+  * Fix build-dependencies
+
+ -- Julian Gilbey <jdg@debian.org>  Thu, 18 Apr 2024 15:29:16 +0100
+
+cython (3.0.10+dfsg-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version (closes: #1059835)
+  * Install cythonize command-line script
+  * Update to debhelper compat level 13
+  * Update Standards-Version to 4.7.0 (no changes required)
+  * Build with sphinxdoc to avoid embedded JavaScript code, and move
+    documentation to /usr/share/doc/cython3
+  * Add help2man-generated manpages for cythonize and cygdb
+  * Update d/copyright and exclude demo files with unclear licensing
+    conditions
+  * Add doc-base file to cython-doc
+
+ -- Julian Gilbey <jdg@debian.org>  Wed, 17 Apr 2024 22:17:50 +0100
+
+cython (3.0.8-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+  * Patch: pyximport: Avoid chdir() and relative paths. (Closes: #1056872)
+
+ -- Stefano Rivera <stefanor@debian.org>  Sun, 21 Jan 2024 14:14:12 -0400
+
+cython (3.0.7-2) unstable; urgency=medium
+
+  * Team upload.
+  * Correctly skip cpp_stl_any, which is a doctest and must be skipped by
+    module name only.
+
+ -- Stefano Rivera <stefanor@debian.org>  Fri, 29 Dec 2023 15:53:55 -0400
+
+cython (3.0.7-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 28 Dec 2023 21:26:11 -0400
+
+cython (3.0.6-3) unstable; urgency=medium
+
+  * Team upload.
+  * Patch: Disable some tests that are failing on Debian CI.
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 28 Dec 2023 12:53:51 -0400
+
+cython (3.0.6-2) unstable; urgency=medium
+
+  * Team upload.
+  * Upload to unstable.
+  * Restore the old cython binary (and keep cython3 as a symbolic link).
+    (Closes: #686045)
+
+ -- Stefano Rivera <stefanor@debian.org>  Mon, 25 Dec 2023 10:57:23 -0400
+
+cython (3.0.6-1) experimental; urgency=medium
+
+  * Team upload.
+  * New upstream release.
+
+ -- Stefano Rivera <stefanor@debian.org>  Sat, 02 Dec 2023 14:19:49 -0400
+
+cython (3.0.5-2) experimental; urgency=medium
+
+  * Team upload.
+  * cython3: Breaks + Replaces cython3-dbg. (Closes: #1056627)
+
+ -- Stefano Rivera <stefanor@debian.org>  Fri, 24 Nov 2023 13:48:37 +0000
+
+cython (3.0.5-1) experimental; urgency=medium
+
+  * Upload to experimental.
+  * New upstream release. (Closes: #1028157, #1055681)
+  * Refresh patches.
+  * Drop patch deb_disable_googleanalytics, superseded upstream.
+  * Build-Depends-Indep: python3-sphinx-issues, python3-sphinx-tabs.
+  * Copy more bits into the testsuite autopkgtest.
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 23 Nov 2023 18:01:46 +0000
+
+cython (0.29.36-2) unstable; urgency=medium
+
+  * Team upload.
+  * Remove unnecessary non-pybuild parts of the build. (Closes: #904211)
+  * Replace cython3-dbg with --automatic-dbgsym.
+  * Minor rules cleanup.
+  * Use dh-exec to rename commands.
+  * Run the upstream test suite in an autopkgtest.
+  * Build-Depend on python3-setuptools, upstream uses distutils which will be
+    removed from 3.12.
+
+ -- Stefano Rivera <stefanor@debian.org>  Thu, 23 Nov 2023 14:32:11 +0000
+
 cython (0.29.36-1) unstable; urgency=medium
 
   * Team upload.

@@ -1,3 +1,15 @@
 Tests: import3
-Depends: cython3, cython3-dbg, python3-all, python3-all-dbg
+Depends: cython3,
+         python3-all
 Restrictions: superficial
+
+Tests: testsuite
+Depends: cython3,
+         g++,
+         gcc,
+         gdb,
+         make,
+         python3-all-dev,
+         python3-numpy,
+         python3-setuptools
+Restrictions: allow-stderr

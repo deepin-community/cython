@@ -4,24 +4,25 @@ Subject: disable_tests
 
 Descriptions: Disable some tests that are failing on certain architectures.
  The bugs have been reported upstream, see links in the patch below.
- numpy_subarray fails on big-endian architectures,
  numpy_memoryview on all powerpc architectures, arm64 and alpha,
  apparently due to a bug in numpy.
 ---
- tests/bugs.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/bugs.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/tests/bugs.txt b/tests/bugs.txt
-index e853b45..55f5804 100644
+index a39f589..c08b722 100644
 --- a/tests/bugs.txt
 +++ b/tests/bugs.txt
-@@ -55,3 +55,9 @@ pyregr.test_urllibnet
- 
- # Inlined generators
- inlined_generator_expressions
+@@ -58,3 +58,11 @@ inlined_generator_expressions
+ # crash in C++ on i686 (possibly others?)
+ # See https://github.com/cython/cython/issues/5768
+ gil_in_var_initialization_tests
 +
 +# Skipped in Debian
 +# https://github.com/cython/cython/issues/2308
 +numpy_memoryview
-+# https://github.com/cython/cython/issues/1982
-+numpy_subarray
++# https://github.com/cython/cython/issues/5926
++test_fstring.TestCase.test_many_expressions
++# https://github.com/cython/cython/issues/5928
++cpp_stl_any
