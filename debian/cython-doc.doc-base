@@ -1,0 +1,20 @@
+Document: cython
+Title: Cython documentation
+Author: Robert Bradshaw, Stefan Behnel, Dag Seljebotn, Greg Ewing, et al.
+Abstract: Documentation for Cython, a generator for Python C-extensions
+ Cython is a language that makes writing C extensions for the Python language
+ as easy as Python itself. Cython is based on the well-known Pyrex, but
+ supports more cutting edge functionality and optimizations.
+ .
+ The Cython language is very close to the Python language, but Cython
+ additionally supports calling C functions and declaring C types on variables
+ and class attributes. This allows the compiler to generate very efficient C
+ code from Cython code.
+ .
+ This makes Cython the ideal language for wrapping external C libraries, and
+ for fast C modules that speed up the execution of Python code.
+Section: Programming/Python
+
+Format: HTML
+Index: /usr/share/doc/cython3/html/index.html
+Files: /usr/share/doc/cython3/html/*

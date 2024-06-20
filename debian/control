@@ -2,29 +2,28 @@ Source: cython
 Section: python
 Priority: optional
 Maintainer: Debian Python Team <team+python@tracker.debian.org>
-Uploaders: Ondrej Certik <ondrej@certik.cz>, Yaroslav Halchenko <debian@onerussian.com>
-Build-Depends: debhelper (>= 7.0.50~),
-               dh-python,
+Uploaders: Ondrej Certik <ondrej@certik.cz>,
+           Yaroslav Halchenko <debian@onerussian.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-python3,
+               gdb <!nocheck>,
                help2man,
                python3-all-dev,
-               python3-all-dbg,
                python3-numpy <!nocheck>,
-               gdb <!nocheck>,
-Build-Depends-Indep: python3-sphinx,
-Standards-Version: 4.6.1
+               python3-setuptools <!nocheck>,
+Build-Depends-Indep: dh-sequence-sphinxdoc,
+                     python3-sphinx,
+                     python3-sphinx-issues,
+                     python3-sphinx-tabs
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
 Homepage: http://cython.org/
 Vcs-Git: https://salsa.debian.org/python-team/packages/cython.git
 Vcs-Browser: https://salsa.debian.org/python-team/packages/cython
-
-Package: cython3
-Architecture: any
-Depends: ${python3:Depends}, ${misc:Depends}, ${shlibs:Depends}
-Recommends: python3-dev, gcc
-Suggests: cython-doc
 Description: C-Extensions for Python 3
- Cython is a language that makes writing C extensions for the Python language as
- easy as Python itself. Cython is based on the well-known Pyrex, but supports
- more cutting edge functionality and optimizations.
+ Cython is a language that makes writing C extensions for the Python language
+ as easy as Python itself. Cython is based on the well-known Pyrex, but
+ supports more cutting edge functionality and optimizations.
  .
  The Cython language is very close to the Python language, but Cython
  additionally supports calling C functions and declaring C types on variables
@@ -34,20 +33,31 @@ Description: C-Extensions for Python 3
  This makes Cython the ideal language for wrapping external C libraries, and
  for fast C modules that speed up the execution of Python code.
 
-Package: cython3-dbg
+Package: cython3
 Architecture: any
-Section: debug
-Depends: ${python3:Depends}, ${misc:Depends}, ${shlibs:Depends}, cython3 (= ${binary:Version})
-Multi-Arch: same
-Description: C-Extensions for Python 3 - debug build
- This package contains Cython libraries built against versions of
- Python configured with --pydebug.
+Depends: ${misc:Depends},
+         ${python3:Depends},
+         ${shlibs:Depends}
+Recommends: gcc,
+            python3-dev
+Replaces: cython (<< 0.29.14-2),
+Breaks: cython (<< 0.29.14-2),
+Suggests: cython-doc
+Description: ${source:Synopsis}
+ ${source:Extended-Description}
+ .
+ This package installs the Python library and command-line tools.
 
 Package: cython-doc
 Architecture: all
 Multi-Arch: foreign
 Section: doc
-Depends: ${misc:Depends}, libjs-jquery, libjs-underscore
+Depends: libjs-jquery,
+         libjs-underscore,
+         ${misc:Depends},
+         ${sphinxdoc:Depends}
 Suggests: cython3
-Description: C-Extensions for Python - documentation
- This package contains documentation for Cython.
+Description: ${source:Synopsis} (Documentation)
+ ${source:Extended-Description}
+ .
+ This package installs the HTML documentation.
